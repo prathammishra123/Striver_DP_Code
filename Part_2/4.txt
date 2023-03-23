@@ -1,0 +1,15 @@
+int maximumNonAdjacentSum(vector<int> &arr)
+{   int n=arr.size();
+    vector<int> sum(n);
+    sum[0]=arr[0];
+    if(n>1)
+    {
+        sum[1]=max(arr[0],arr[1]);
+        int j;
+        for(j=2;j<n;j++)
+        {
+            sum[j]=max((arr[j]+sum[j-2]),sum[j-1]);
+        }
+    }
+    return sum[n-1];
+}

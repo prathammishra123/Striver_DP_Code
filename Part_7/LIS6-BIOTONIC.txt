@@ -1,0 +1,38 @@
+#include <bits/stdc++.h> 
+int longestBitonicSequence(vector<int>& nums, int n) 
+{
+    
+
+       vector<int> dp1(n,1);
+	   vector<int>dp2(n,1);
+       int ind,prev;
+       int ans=-1;
+       for(ind=0;ind<n;ind++)
+       {
+      for(prev=ind-1;prev>=0;prev--)
+       {
+          if(nums[ind]> nums[prev] && dp1[ind]<(1+dp1[prev]))
+          {
+           dp1[ind]=1+dp1[prev];
+          }
+       }
+      }
+       for(ind=n-1;ind>=0;ind--)
+       {
+      for(prev=n-1;prev>ind;prev--)
+       {
+          if(nums[ind]> nums[prev] && dp2[ind]<(1+dp2[prev]))
+          {
+           dp2[ind]=1+dp2[prev];
+          }
+       }
+      }
+	  int j;
+	  for(j=0;j<n;j++)
+	  {
+		  ans=max(ans,(dp1[j]+dp2[j]-1));
+	  }
+	  return ans;
+     
+    }
+SSS

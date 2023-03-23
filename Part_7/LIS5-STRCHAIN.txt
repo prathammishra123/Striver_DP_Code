@@ -1,0 +1,53 @@
+class Solution {
+public:
+    bool check(string s1,string s2)
+    {
+        int p1=0;
+        int p2=0;
+        int diff=0;
+        if((1+s2.size())!=(s1.size())){return false;}
+        while(true)
+        {   if(p1==s1.length()|| p2==s2.length()){break;}
+            if(s1[p1]==s2[p2]){p1++;p2++;}
+            else{p1++;diff++;}
+        }
+        if(diff>1){return false;}
+        else{return true;}
+    }
+    static bool comp(string& s1, string& s2)
+    {
+      return s1.size() < s2.size();
+    }
+    int longestStrChain(vector<string>& words) 
+    {
+        int n=words.size();
+        sort(words.begin(),words.end(),comp);
+        vector<int> dp(n,1);
+        vector<int> hash(n,1);
+    
+       for(int i=0; i<=n-1; i++)
+       {
+        hash[i] = i; 
+        for(int prev_index = 0; prev_index <=i-1; prev_index ++){
+            
+            if(check(words[i],words[prev_index]) && 1 + dp[prev_index] > dp[i]){
+                dp[i] = 1 + dp[prev_index];
+                hash[i] = prev_index;
+            }
+        }
+       }
+    
+       int ans = -1;
+        int lastIndex =-1;
+    
+       for(int i=0; i<=n-1; i++)
+       {
+        if(dp[i]> ans)
+        {
+            ans = dp[i];
+            lastIndex = i;
+        }
+        }
+        return ans;
+    }
+};

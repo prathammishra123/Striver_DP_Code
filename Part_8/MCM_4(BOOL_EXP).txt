@@ -1,0 +1,95 @@
+MEMOIZED-
+#include <bits/stdc++.h> 
+#define mod 1000000007
+#define lli long long int
+int solve(string &exp,lli i, lli j,lli isTrue,vector<vector<vector<lli>>>&dp)
+{
+    if(i>j){return 0;}
+    if(dp[i][j][isTrue]!=-1){return dp[i][j][isTrue]%mod;}
+    if(i==j)
+    {
+        if(isTrue){return exp[i]=='T';}
+        else{return exp[i]=='F';}
+    }
+    lli ans=0;
+    for(int k=i;k<=j;k++)
+    {
+       if(exp[k]!='T' && exp[k]!='F')
+       {
+           lli clt=solve(exp,i,k-1,1,dp)%mod;
+           lli clf=solve(exp,i,k-1,0,dp)%mod;
+           lli crt=solve(exp,k+1,j,1,dp)%mod;
+           lli crf=solve(exp,k+1,j,0,dp)%mod;
+           if(isTrue)
+           {
+                if(exp[k]=='&'){ans+=(clt*crt)%mod;}
+                if(exp[k]=='|'){ans+=((clt*crt)%mod+(clt*crf)%mod+(clf*crt)%mod)%mod;}
+                if(exp[k]=='^'){ans+=((clt*crf)%mod+(clf*crt)%mod)%mod;}
+           }
+           else
+           {
+                if(exp[k]=='&'){ans+=((clf*crf)%mod+(clt*crf)%mod+(clf*crt)%mod)%mod;}
+                if(exp[k]=='|'){ans+=(clf*crf)%mod;}
+                if(exp[k]=='^'){ans+=((clt*crt)%mod+(clf*crf)%mod)%mod;}
+           }
+       }
+    }
+    ans%=mod;
+    return dp[i][j][isTrue]=ans;
+}
+int evaluateExp(string &exp)
+ {
+   lli n=exp.size();
+   vector<vector<vector<lli>>> dp(n,vector<vector<lli>>(n,vector<lli>(2,-1)));
+   return (int)solve(exp,0,n-1,1,dp)%mod;
+}
+
+TABULAR-
+#define mod 1003
+int Solution::cnttrue(string exp) 
+{
+    int n=exp.size();
+    vector<vector<vector<int>>> dp(n,vector<vector<int>>(n,vector<int>(2,0)));
+   int i,j,k,isTrue,ans;
+   for(i=n-1;i>=0;i--)
+   {
+       for(j=i;j<(n);j++)
+       {  
+           if(i>j){continue;}
+          for( isTrue=0;isTrue<=1;isTrue++)
+          {
+           ans=0;
+           if(i==j)
+    {
+        if(isTrue){ dp[i][j][isTrue]=(exp[i]=='T');continue;}
+        else{return dp[i][j][isTrue]=(exp[i]=='F');continue;}
+    }
+       for(int k=i+1;k<j;k++)
+    {   
+       if(exp[k]!='T' && exp[k]!='F')
+       {
+           int clt=dp[i][k-1][1]%mod;
+           int clf=dp[i][k-1][0]%mod;
+           int crt=dp[k+1][j][1]%mod;
+           int crf=dp[k+1][j][0]%mod;
+           if(isTrue)
+           {
+                if(exp[k]=='&'){ans+=(clt*crt)%mod;}
+                if(exp[k]=='|'){ans+=((clt*crt)%mod+(clt*crf)%mod+(clf*crt)%mod)%mod;}
+                if(exp[k]=='^'){ans+=((clt*crf)%mod+(clf*crt)%mod)%mod;}
+           }
+           else
+           {
+                if(exp[k]=='&'){ans+=((clf*crf)%mod+(clt*crf)%mod+(clf*crt)%mod)%mod;}
+                if(exp[k]=='|'){ans+=(clf*crf)%mod;}
+                if(exp[k]=='^'){ans+=((clt*crt)%mod+(clf*crf)%mod)%mod;}
+           }
+       }
+    }
+    ans%=mod;
+    dp[i][j][isTrue]=ans;
+          } 
+       }
+   }
+   return dp[0][n-1][1];
+}

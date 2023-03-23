@@ -1,0 +1,56 @@
+MEMOIZED-
+#include <bits/stdc++.h> 
+int solve(int i,int j,vector<int>&cuts,vector<vector<int>>&dp)
+{
+    if(i>j){return 0;}
+    if(dp[i][j]!=-1){return dp[i][j];}
+    int mini=INT_MAX;
+    for(int k=i;k<=j;k++)
+    {
+       int ans=cuts[j+1]-cuts[i-1]+solve(i,k-1,cuts,dp)+solve(k+1,j,cuts,dp);
+       mini=min(mini,ans);
+    }
+    return dp[i][j]=mini;
+}
+int cost(int n, int c, vector<int> &cuts)
+{
+    vector<vector<int>> dp(c+1,vector<int>(c+1,-1));
+    cuts.push_back(0);
+    cuts.push_back(n);
+    sort(cuts.begin(),cuts.end());
+    return solve(1,c,cuts,dp);
+}
+TABULAR-
+#include <bits/stdc++.h> 
+int cost(int n, int c, vector<int> &cuts)
+{
+    cuts.push_back(0);
+    cuts.push_back(n);
+    sort(cuts.begin(),cuts.end());
+    vector<vector<int>> dp(c+2,vector<int>(c+2,0));
+    int i,j;
+    for(i=1;i<=c;i++)
+    {
+        for(j=1;j<=c;j++)
+        {
+          if (i > j) 
+          {
+            dp[i][j] = 0;
+          }
+        }
+    }
+    for(i=c;i>=1;i--)
+    {
+        for(j=i;j<=c;j++)
+        {
+           int mini=INT_MAX;
+           for(int k=i;k<=j;k++)
+           {
+            int ans=cuts[j+1]-cuts[i-1]+dp[i][k-1]+dp[k+1][j];
+            mini=min(mini,ans);
+           }
+          dp[i][j]=mini;
+        }
+    }
+    return dp[1][c];
+}

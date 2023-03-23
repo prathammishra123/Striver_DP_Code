@@ -1,0 +1,71 @@
+MEMOIZED-
+
+ int solve(int n, int k,vector<int>&prices,int ind,int buy, int cap,vector<vector<vector<int>>>&dp)
+    {   
+        
+        if(ind==n || cap==0){return 0;}
+        if(dp[ind][buy][cap]!=-1){return dp[ind][buy][cap];}
+        int opt1;
+        int opt2;
+        if(buy==0)
+        {
+         opt1=0+solve(n,k,prices,ind+1,0,cap,dp);
+         opt2=-(prices[ind])+solve(n,k,prices,ind+1,1,cap,dp);
+        }
+        if(buy==1)
+        {
+         opt1=0+solve(n,k,prices,ind+1,1,cap,dp);
+         opt2=+(prices[ind])+solve(n,k,prices,ind+1,0,cap-1,dp);
+        }
+        return dp[ind][buy][cap]=max(opt1,opt2);
+    }
+    int maxProfit(vector<int>& prices) 
+    {  
+        int n=prices.size();
+        int k=2;
+        vector<vector<vector<int>>> dp(n,
+                                    vector<vector<int>> 
+                                            (2,vector<int>(k+1,-1)));
+       return solve(n,k,prices,0,0,k,dp); 
+    }
+
+
+TABULAR-
+
+
+class Solution {
+public:
+   
+    int maxProfit(vector<int>& prices) 
+    {  
+          int n=prices.size();
+          int k=2;
+        vector<vector<vector<int>>> dp(n+1,
+                                    vector<vector<int>> 
+                                            (2,vector<int>(k+1,0)));
+      int ind,buy,cap;
+      for(ind=n-1;ind>=0;ind--)
+      {
+          for(buy=0;buy<=1;buy++)
+          {
+              for(cap=1;cap<=k;cap++)
+              {
+                 int opt1=0;
+                 int opt2=0;
+                 if(buy==0)
+                 {
+                    opt1=0+dp[ind+1][buy][cap];
+                    opt2=-(prices[ind])+dp[ind+1][1][cap];
+                 }
+                 if(buy==1)
+                  {
+                    opt1=0+dp[ind+1][buy][cap];
+                    opt2=+(prices[ind])+dp[ind+1][0][cap-1];
+                  }
+                  dp[ind][buy][cap]=max(opt1,opt2);
+              }
+          }
+      }
+      return dp[0][0][k]; 
+    }
+};

@@ -1,0 +1,21 @@
+int minSumPath(vector<vector<int>> &grid) 
+{
+   int m=grid.size();
+   int n=grid[0].size();
+   int i,j,k;
+   int dp[m][n];
+    dp[0][0]=grid[0][0];
+    for(j=0;j<m;j++)
+    {
+   for(k=0;k<n;k++)
+   { 
+       int c1=1e9;
+       int c2 =1e9;
+       if(j-1>=0){c1=dp[j-1][k]+grid[j][k];}
+       if(k-1>=0){c2=dp[j][k-1]+grid[j][k];}
+       dp[j][k]=min(c1,c2);
+      if(j==0 && k==0){dp[j][k]=grid[0][0];}
+   }
+   }
+    return dp[m-1][n-1];
+}

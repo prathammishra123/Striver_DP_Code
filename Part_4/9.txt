@@ -1,0 +1,29 @@
+long countWaysToMakeChange(int *num, int n, int value)
+{
+    
+   long long  int k=value;
+   long long  int dp[n+1][k+1];
+    int i,j;
+    for(i=0;i<=n;i++)
+    {
+        for(j=0;j<=k;j++)
+        {
+            if(i==0){dp[i][j]=0;}
+            if(j==0){dp[i][j]=1;}
+        }
+    }
+     for(i=1;i<=n;i++)
+    {
+        for(j=1;j<=k;j++)
+        {
+         long long   int not_take=dp[i-1][j];
+         long long    int take=0;
+           if(num[i-1]<=j)
+           {
+               take=dp[i][j-num[i-1]];
+           }
+            dp[i][j]=take+not_take;
+        }
+     }
+  return dp[n][k];
+}

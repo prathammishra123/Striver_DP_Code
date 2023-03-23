@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define lli long long int
+#define INF 1000000000000000000
+#define llu unsigned long long int
+#define ff first
+#define vl vector<pair<lli,lli>>
+#define ss second
+int main()
+{
+ios_base::sync_with_stdio(0);
+cin.tie(0);
+cout.tie(0);
+lli n,k,i,j;
+  cin>>n>>k;
+  lli height[n];
+  for(j=0;j<n;j++){cin>>height[j];}
+  lli dp[n];
+	 if(n>=1){dp[0]=0;}
+   if(n>=2){dp[1]=abs(height[1]-height[0]);}
+    
+    
+    for(int j=2;j<n;j++)
+    {    lli val=1e9;
+       for(i=1;i<=k;i++){
+      if((j-i)>=0){ lli c1=dp[j-i]+abs(height[j]-height[j-i]);
+       
+       val=min(val,c1);}
+}
+     dp[j]=val;
+    }
+   cout<<dp[n-1]<<endl;
+}
+                            

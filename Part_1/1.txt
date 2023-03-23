@@ -1,0 +1,24 @@
+Dynaimc programming-
+Those who can not rem past are condem to repeat it.
+Methods-
+1-Recursion-
+com-2^n
+2-Memoization-(Top-Down)
+com-n^2
+3-Tabular(Bottom-Up)
+com-n^2;
+Problem Types-
+1-INTRO
+2-1D DP
+3-DP ON GRIDS
+4-DP ON SUBSEQUQNCES
+5-DP ON STRINGS(LCS)
+6-STOCK PROBLEMS
+7-LONGEST INCREASING SUBSEQUENCE
+8-MCM 
+9-DP ON SQUARES
+
+CONVERT MEM TO TABULAR;
+FILL BASE CASES AS IT IS
+TRAVERSE IN REVERSE DIRECTION IE.OPPOSITE TO MEMOIZED.
+USE YOUR BRAIN A LITTLE.

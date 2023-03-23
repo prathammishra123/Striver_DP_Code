@@ -1,0 +1,83 @@
+MEMOIZED-
+class Solution {
+public:
+    int solve(int i, int n, string &s,vector<int>&dp, vector<vector<bool>>&v)
+    {
+      if(i==n){return 0;}
+      if(dp[i]!=-1){return dp[i];}
+      if(v[i][n-1]){return dp[i]=0;}
+      int mini=INT_MAX;
+      for(int k=i;k<n;k++)
+      {
+          if(v[i][k])
+          {
+              dp[i]=0;
+            int ans=1+solve(k+1,n,s,dp,v);
+            mini=min(ans,mini);
+          }
+      }
+      return dp[i]=mini;
+    }
+    int minCut(string s)
+    {    
+        int n=s.size();
+         vector<vector<bool>>v;
+         v.clear();
+        v.resize(n,vector<bool>(n,false));
+        for(int i=0;i<n;i++){v[i][i]=true;}
+        for(int i=2;i<=n;i++)
+        {
+            for(int j=0;j<=n-i;j++)
+            {
+                int l =j ,r = j+i-1;
+                if(s[l]!=s[r]){v[l][r]=false;continue;}
+                if(i==2){v[l][r]=true;continue;}
+                v[l][r] = v[l+1][r-1];
+            }
+        }
+        vector<int> dp(n,-1);
+        return solve(0,n,s,dp,v);
+    }
+};
+
+TABULAR-
+class Solution {
+public:
+    int solve(int i, int n, string &s,vector<int>&dp, vector<vector<bool>>&v)
+    {
+      if(i==n){return 0;}
+      if(dp[i]!=-1){return dp[i];}
+      if(v[i][n-1]){return dp[i]=0;}
+      int mini=INT_MAX;
+      for(int k=i;k<n;k++)
+      {
+          if(v[i][k])
+          {
+              dp[i]=0;
+            int ans=1+solve(k+1,n,s,dp,v);
+            mini=min(ans,mini);
+          }
+      }
+      return dp[i]=mini;
+    }
+    int minCut(string s)
+    {    
+        int n=s.size();
+         vector<vector<bool>>v;
+         v.clear();
+        v.resize(n,vector<bool>(n,false));
+        for(int i=0;i<n;i++){v[i][i]=true;}
+        for(int i=2;i<=n;i++)
+        {
+            for(int j=0;j<=n-i;j++)
+            {
+                int l =j ,r = j+i-1;
+                if(s[l]!=s[r]){v[l][r]=false;continue;}
+                if(i==2){v[l][r]=true;continue;}
+                v[l][r] = v[l+1][r-1];
+            }
+        }
+        vector<int> dp(n,-1);
+        return solve(0,n,s,dp,v);
+    }
+};

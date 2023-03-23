@@ -1,0 +1,41 @@
+#include <bits/stdc++.h> 
+int countPartitions(int n, int d, vector<int> &num) 
+{
+    long long int sum=0;
+    for(auto it:num){sum+=it;}
+   long long  int k=sum+d;
+    if(k%2){return 0;}
+    k=k/2;
+    long long int dp[n+1][k+1];
+    int count=0;
+   
+    int i,j;
+    for(i=0;i<=n;i++)
+    {   
+        if(num[i]==0){count++;}
+        for(j=0;j<=k;j++)
+        {
+            if(i==0){dp[i][j]=0;}
+            if(j==0){dp[i][j]=1*(long)(pow(2,count));}
+        }
+    }
+     for(i=1;i<=n;i++)
+    {
+        for(j=1;j<=k;j++)
+        {
+           if((j-num[i-1])>=0)
+           {
+               dp[i][j]=dp[i-1][j]+dp[i-1][j-num[i-1]];
+               dp[i][j]=dp[i][j]%(long)(1e9+7);
+           }
+            else
+            {
+                dp[i][j]=dp[i-1][j];
+                 dp[i][j]=dp[i][j]%(long)(1e9+7);
+            }
+        }
+     }
+    return (dp[n][k]);
+}
+
+
